@@ -1,6 +1,9 @@
 import './App.css';
 import { useState } from 'react';
+import ReactModal from 'react-modal';
 import venueIds from './venueIds';
+import cookie1 from './cookie1.png';
+import cookie2 from './cookie2.png';
 
 function App() {
   const [date, setDate] = useState('');
@@ -9,6 +12,7 @@ function App() {
   const [filterText, setFilterText] = useState('');
   const [displayError, setDisplayError] = useState(false);
   const [resultCount, setResultCount] = useState(venueIds.length);
+  const [showModal, setShowModal] = useState(false);
 
   const filteredSlots = slots.filter(
     item => item.venue.toLowerCase().includes(filterText.toLowerCase()) ||
@@ -102,7 +106,7 @@ function App() {
 
   return (
     <main className="container-fluid">
-      <h3 className="mt-2">Badminton Courts (ActiveSG)</h3>
+      <h3 className="mt-2">Badminton Court (ActiveSG)</h3>
       <p>- Search for available courts at schools and sports halls -</p>
       <div id="form">
         <div className="mb-3">
@@ -122,8 +126,9 @@ function App() {
         </div>
         <div className="mb-4">
           <label htmlFor="cookie" className="form-label">
-            Cookie (members.myactivesg.com, key: ActiveSG)
+            Cookie
           </label>
+          <span id="modal-link" onClick={() => setShowModal(true)}>(?)</span>
           <input
             type="text"
             className="form-control"
@@ -176,6 +181,43 @@ function App() {
           ) }
         </tbody>
       </table>
+      <ReactModal
+        isOpen={showModal}
+        onRequestClose={() => setShowModal(false)}
+        ariaHideApp={false}
+      >
+        <h5>Why need cookie?</h5>
+        <ul>
+          <li>ActiveSG only displays slots when logged in</li>
+          <li>This cookie is a form of authentication/identity</li>
+          <li>If you anyhow key in a random value, the result will be no slots</li>
+        </ul>
+        <h5>How to get cookie?</h5>
+        <ol>
+          <li>Log in to ActiveSG</li>
+          <a href="https://members.myactivesg.com/">
+            https://members.myactivesg.com/
+          </a>
+          <p></p>
+          <li>Press F12 for Developer Tools</li>
+          <p></p>
+          <img
+            src={cookie1}
+            className="w-100 border border-secondary"
+            alt="cookie instruction 1"
+          />
+          <p></p>
+          <li>Go to "Application" tab. Copy the value for "ActiveSG" cookie (circled in blue).</li>
+          <p></p>
+          <img
+            src={cookie2}
+            className="w-100 border border-secondary"
+            alt="cookie instruction 2"
+          />
+          <p></p>
+          <li>Press 'Esc' or click outside to close this pop-up. Paste the cookie value into the "Cookie" field.</li>
+        </ol>
+      </ReactModal>
     </main>
   );
 }

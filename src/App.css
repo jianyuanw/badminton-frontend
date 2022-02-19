@@ -17,3 +17,10 @@ main {
 #filter {
   max-width: 300px;
 }
+
+#modal-link {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 4px;
+}
